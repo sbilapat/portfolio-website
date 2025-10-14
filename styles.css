@@ -1,0 +1,24 @@
+/* Starter styles for portfolio-website */
+:root{
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #666666;
+  --accent: #0b66ff;
+  --border: #e6e6e6;
+}
+html,body{height:100%;}
+body{
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  margin:0;
+  padding:2rem;
+  line-height:1.6;
+  color:var(--text);
+  background:var(--bg);
+}
+header{border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1.5rem}
+h1{margin:0;font-size:1.8rem}
+p.lead{color:var(--muted)}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
+a{color:var(--accent);text-decoration:none}
+.site-footer{border-top:1px solid var(--border);padding-top:1rem;margin-top:1.5rem;color:var(--muted);font-size:0.95rem}
+@media (max-width:520px){body{padding:1rem};h1{font-size:1.4rem}}

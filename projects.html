@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Siddharth Bilapati</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Siddharth Bilapati</a>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<!-- Grid / list view -->
+<div id="projects-list">
+  <h1 style="padding:60px 60px 0;">Featured Projects</h1>
+  <div class="project-grid">
+
+    <div class="project-card" onclick="showProject('ebike')">
+      <div class="project-card-cover"><img src="cover_ebike.jpg" alt="Ebike"></div>
+      <div class="project-card-body"><div class="project-card-title">Ebike Project</div><div class="project-card-blurb">Simulation driven ebike powertrain design and thermal optimization.</div></div>
+    </div>
+
+    <div class="project-card" onclick="showProject('windtunnel')">
+      <div class="project-card-cover"><img src="cover_windtunnel.jpg" alt="Wind Tunnel CAD model"></div>
+      <div class="project-card-body"><div class="project-card-title">Wind Tunnel Project</div><div class="project-card-blurb">Custom built wind tunnel rig for aerodynamic testing.</div></div>
+    </div>
+
+    <div class="project-card" onclick="showProject('rccar')">
+      <div class="project-card-cover"><img src="cover_rccar.jpg" alt="RC Car chassis"></div>
+      <div class="project-card-body"><div class="project-card-title">RC Car Project</div><div class="project-card-blurb">Modular RC chassis with custom CAD parts for performance testing.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Ebike detail -->
+<div id="project-ebike" class="project-detail" style="display:none;">
+  <span class="back-link" onclick="backToProjects()">&larr; Back to Projects</span>
+  <h1 class="project-detail-header" style="padding:10px 0 0;">Ebike Project</h1>
+  <p class="meta">Ongoing, self directed build</p>
+  <div class="tag-row">
+    <span class="tag-pill">Electro Mechanical Design</span>
+    <span class="tag-pill">Python</span>
+    <span class="tag-pill">Field Oriented Control</span>
+    <span class="tag-pill">Motor Simulation</span>
+    <span class="tag-pill">Data Visualization</span>
+    <span class="tag-pill">Matplotlib</span>
+    <span class="tag-pill">Pandas / NumPy</span>
+    <span class="tag-pill">Regenerative Braking</span>
+    <span class="tag-pill">CAD</span>
+  </div>
+  <div class="project-cover-large"><img src="chart_hub_regen_dashboard.jpg" alt="Real world hub motor telemetry dashboard"></div>
+
+  <div class="project-section">
+    <h3>Background</h3>
+    <p>This project started with my dad. He wanted to ride around our neighborhood in Georgetown, Texas, but the hills there make for a rough ride. An ebike felt like the fix, so I decided to design and build the powertrain myself.</p>
+  </div>
+
+  <div class="story-row">
+    <div class="story-text">
+      <h3>Choosing the Hardware</h3>
+      <ul>
+        <li>Followed my mentor Bhargav's build outline and bought the same budget bike he used.</li>
+        <li>Weighed a mid drive motor (true pedal torque sensing) against a rear hub motor (simpler, but needs a steel torque arm and regenerative braking to stay competitive).</li>
+        <li>Planned ahead for upgraded brakes and a battery mount to handle the added weight.</li>
+      </ul>
+    </div>
+    <div class="story-image">
+      <img src="chart_hardware_compare.jpg" alt="Mid drive vs hub motor system comparison">
+    </div>
+  </div>
+
+  <div class="story-row reverse">
+    <div class="story-text">
+      <h3>Bench Testing Both Motors</h3>
+      <ul>
+        <li>Ran both motors through a simulator, sweeping every gear for the mid drive and every throttle level for the hub motor.</li>
+        <li>Found the same issue everywhere: efficiency collapsed and simulated temperatures spiked at low speed, since a stalled DC motor turns unused current into heat.</li>
+        <li>Traced this to how EVs like Tesla avoid it: gating current at low speed instead of letting it all through at once.</li>
+      </ul>
+    </div>
+    <div class="story-image stacked">
+      <img src="chart_sim_middrive.jpg" alt="Mid drive motor simulator run">
+      <img src="chart_sim_hubmotor.jpg" alt="Hub motor simulator run">
+    </div>
+  </div>
+
+  <div class="story-row" style="max-width:640px;">
+    <div class="story-text" style="flex:1;">
+      <p style="margin-bottom:10px; color:#444;">Here's a walkthrough of the actual code I wrote to turn those simulator runs into the efficiency map and 3D gear landscape:</p>
+      <a class="video-thumb" href="https://www.youtube.com/watch?v=iG6j80adPw8" target="_blank" rel="noopener" onclick="return openVideoModal('iG6j80adPw8', event)">
+        <img src="https://img.youtube.com/vi/iG6j80adPw8/hqdefault.jpg" alt="Video walkthrough of the motor efficiency map code">
+      </a>
+      <p class="video-caption">Click to watch: generating the motor efficiency map in Python</p>
+    </div>
+  </div>
+
+  <div class="story-row">
+    <div class="story-text">
+      <h3>Modeling Real World Performance</h3>
+      <ul>
+        <li>No dataset online paired torque with motor power, so I calculated torque myself from speed and grade at every timestamp.</li>
+        <li>My first comparison had the mid drive winning everything, until I realized the model ignored the hub motor's regenerative braking. Adding 60% regen on downhills changed the picture.</li>
+      </ul>
+    </div>
+    <div class="story-image">
+      <img src="chart_fairplay_comparison.jpg" alt="Fair play powertrain comparison summary">
+    </div>
+  </div>
+
+  <div class="story-row reverse">
+    <div class="story-text">
+      <h3>Solving the Heat Problem</h3>
+      <ul>
+        <li>Confirmed the heat spike was real, caused by <em>Power Loss = I&sup2;R</em>: without wheel speed to generate back EMF, current and heat skyrocket when the motor stalls.</li>
+        <li>Wrote a <strong>Virtual Speed Dependent Transformer algorithm</strong> in software: choke current at low RPM, then open to full power as back EMF takes over.</li>
+      </ul>
+    </div>
+    <div class="story-image">
+      <img src="chart_virtual_transformer.jpg" alt="Virtual speed transformer thermal efficiency plot">
+    </div>
+  </div>
+
+  <div class="story-row">
+    <div class="story-text">
+      <h3>Building the Ebike</h3>
+      <ul>
+        <li>Now in the physical build phase, starting with the drivetrain hardware like the crank and chainring.</li>
+        <li>[Add updates here as the motor, battery, and controller go in.]</li>
+      </ul>
+    </div>
+    <div class="story-image">
+      <img src="chart_build_photo_crank.jpg" alt="Installing the crank arm on the ebike frame">
+    </div>
+  </div>
+
+  <div class="project-section">
+    <h3>Results &amp; Takeaways</h3>
+    <p>The virtual transformer logic cut heat loss at a dead stop from 80.0W to 1.8W (97.8% reduction), with zero performance penalty once moving. Once regen was factored in, the hub motor and mid drive landed at nearly identical overall efficiency (82.0% vs 82.1%), with the hub motor actually using less energy per mile in the real world model, 14.2 Wh vs 15.8 Wh, thanks to regen recapturing energy on hills.</p>
+  </div>
+
+  <h3 style="padding-left:0; margin: 0 0 16px;">Progress Gallery</h3>
+  <div class="gallery-grid">
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_hardware_compare.jpg" alt="Mid drive vs hub motor system comparison" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_sim_middrive.jpg" alt="Mid drive motor simulator run" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_sim_hubmotor.jpg" alt="Hub motor simulator run" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_efficiency_map.jpg" alt="Hub motor efficiency map and operating envelope" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_middrive_3d_landscape.jpg" alt="3D multi gear efficiency landscape for the mid drive setup" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_hub_regen_dashboard.jpg" alt="Hub motor real world telemetry dashboard with regenerative braking" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_middrive_real_world.jpg" alt="Mid drive real world telemetry dashboard with dynamic shifting" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_virtual_transformer.jpg" alt="Virtual speed transformer thermal efficiency plot" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_fairplay_comparison.jpg" alt="Fair play powertrain comparison summary" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item" style="background:none; padding:0;"><img src="chart_build_photo_crank.jpg" alt="Installing the crank arm on the ebike frame" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+  </div>
+</div>
+
+<!-- Wind Tunnel detail -->
+<div id="project-windtunnel" class="project-detail" style="display:none;">
+  <span class="back-link" onclick="backToProjects()">&larr; Back to Projects</span>
+  <h1 class="project-detail-header" style="padding:10px 0 0;">Wind Tunnel Project</h1>
+  <p class="meta">Add timeframe here</p>
+  <div class="tag-row">
+    <span class="tag-pill">Aerodynamics</span>
+    <span class="tag-pill">Data Acquisition</span>
+    <span class="tag-pill">Fabrication</span>
+  </div>
+  <div class="project-cover-large"><img src="cover_windtunnel.jpg" alt="Wind Tunnel CAD model" style="object-fit:contain;background:#eceae4;"></div>
+
+  <div class="project-section">
+    <h3>Background</h3>
+    <p>Add a paragraph here on why you built this: the problem you wanted to explore, what sparked the idea, and what you set out to test or learn.</p>
+  </div>
+
+  <div class="project-section">
+    <h3>Design &amp; Build</h3>
+    <ul>
+      <li>Add a bullet on the wind tunnel structure/fabrication approach.</li>
+      <li>Add a bullet on the sensors or data acquisition setup used.</li>
+      <li>Add a bullet on any calibration or testing methodology.</li>
+    </ul>
+  </div>
+
+  <div class="project-section">
+    <h3>Results &amp; Takeaways</h3>
+    <p>Add a short paragraph on what you found, how it validated (or changed) your assumptions, and what you'd improve next time.</p>
+  </div>
+
+  <h3 style="padding-left:0; margin: 0 0 16px;">Progress Gallery</h3>
+  <div class="gallery-grid">
+    <div class="gallery-item">Photo 1</div>
+    <div class="gallery-item">Photo 2</div>
+    <div class="gallery-item">Photo 3</div>
+    <div class="gallery-item">Photo 4</div>
+    <div class="gallery-item">Photo 5</div>
+    <div class="gallery-item">Photo 6</div>
+  </div>
+</div>
+
+<!-- RC Car detail -->
+<div id="project-rccar" class="project-detail" style="display:none;">
+  <span class="back-link" onclick="backToProjects()">&larr; Back to Projects</span>
+  <h1 class="project-detail-header" style="padding:10px 0 0;">RC Car Project</h1>
+  <p class="meta">[Add timeframe here]</p>
+  <div class="tag-row">
+    <span class="tag-pill">Controls</span>
+    <span class="tag-pill">Mechatronics</span>
+    <span class="tag-pill">CAD / SolidWorks</span>
+    <span class="tag-pill">Prototyping</span>
+  </div>
+  <div class="project-cover-large"><img src="cover_rccar_full.jpg" alt="RC Car full build overview" style="object-fit:contain;background:#111;"></div>
+
+  <div class="project-section">
+    <h3>Background</h3>
+    <p>I've always wanted to get into cars, but breaking into automotive engineering as a hobby isn't cheap, since real parts, real tools, and real mistakes all cost real money. An RC car gave me a way to explore that world at a fraction of the scale and the cost.</p>
+    <p>Once I decided on an RC car, the next question was what kind of drivetrain to build around. With a limited budget, going with a simple electric powertrain, essentially a scaled down EV system, was the most practical choice. It let me focus on learning the fundamentals of motors, controllers, and drivetrain design without the complexity (or expense) of an internal combustion setup.</p>
+  </div>
+
+  <div class="project-section">
+    <h3>Design &amp; Build</h3>
+    <ul>
+      <li>I started with a base RC chassis kit and built out the rest of the car from there, then started CADing individual components I could swap in and out to test how each one affects performance.</li>
+      <li>As an example, I modeled a custom wheel in CAD and mounted it onto the RC car in place of the stock wheel, aiming to see how the design change would affect handling and speed compared to the original part.</li>
+      <li>I'm currently in the process of testing how this wheel changes performance relative to the stock wheels it replaced.</li>
+      <li>I also plan on testing the wheel across different materials to see how each one performs, looking at factors like weight and durability to find the best setup.</li>
+    </ul>
+  </div>
+
+  <h3 style="padding-left:0; margin: 0 0 16px;">Progress Gallery</h3>
+  <div class="gallery-grid">
+    <div class="gallery-item" style="background:none; padding:0;"><img src="wheel_cad.jpg" alt="CAD model of custom wheel" style="width:100%;height:100%;object-fit:cover;border-radius:4px;"></div>
+    <div class="gallery-item">More CAD screenshots</div>
+    <div class="gallery-item">3D printed parts</div>
+    <div class="gallery-item">Assembly photos</div>
+    <div class="gallery-item">Testing photos</div>
+    <div class="gallery-item">Final build</div>
+  </div>
+</div>
+
+<!-- Video modal -->
+<div id="video-modal" class="modal-overlay" onclick="if(event.target===this) closeVideoModal()">
+  <div class="video-modal-box">
+    <button class="video-close-btn" onclick="closeVideoModal()">Close</button>
+    <iframe id="video-modal-iframe" src="" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <a id="video-modal-fallback-link" href="#" target="_blank" rel="noopener" style="display:block; text-align:center; color:#CFB991; padding:12px; font-size:0.9rem; background:#111;">Video not loading? Watch on YouTube &rarr;</a>
+  </div>
+</div>
+
+<script>
+function showProject(id) {
+  document.getElementById('projects-list').style.display = 'none';
+  document.querySelectorAll('.project-detail').forEach(function(d){ d.style.display = 'none'; });
+  document.getElementById('project-' + id).style.display = 'block';
+  window.scrollTo(0, 0);
+}
+function backToProjects() {
+  document.querySelectorAll('.project-detail').forEach(function(d){ d.style.display = 'none'; });
+  document.getElementById('projects-list').style.display = 'block';
+}
+function openVideoModal(videoId, evt) {
+  if (evt) evt.preventDefault();
+  document.getElementById('video-modal-iframe').src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+  document.getElementById('video-modal-fallback-link').href = 'https://www.youtube.com/watch?v=' + videoId;
+  document.getElementById('video-modal').classList.add('open');
+  return false;
+}
+function closeVideoModal() {
+  document.getElementById('video-modal').classList.remove('open');
+  document.getElementById('video-modal-iframe').src = '';
+}
+</script>
+
+</body>
+</html>

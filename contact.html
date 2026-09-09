@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Siddharth Bilapati</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Siddharth Bilapati</a>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</nav>
+
+<div class="contact-wrap">
+  <h1 class="contact-heading" style="padding:0;">Get In Touch</h1>
+  <p class="contact-sub">Feel free to reach out to learn more!</p>
+
+  <div class="contact-layout">
+    <form class="contact-form" onsubmit="sendContactForm(event)">
+      <div class="contact-form-row">
+        <input type="text" id="contact-name" placeholder="Name" required>
+        <input type="email" id="contact-email" placeholder="Email" required>
+      </div>
+      <textarea id="contact-message" placeholder="Message" required></textarea>
+      <button type="submit" class="contact-send-btn">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+      <a class="contact-info-item" href="tel:+14254948820">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.56.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.25 1.02l-2.2 2.21z"/></svg>
+        <span>425 494 8820</span>
+      </a>
+      <a class="contact-info-item" href="mailto:sbilapat@purdue.edu">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4l-8 5-8-5V6l8 5 8-5z"/></svg>
+        <span>sbilapat@purdue.edu</span>
+      </a>
+      <a class="contact-info-item" href="https://www.linkedin.com/in/siddharth-bilapati/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18v-8.4H5.67V18h2.67zM7 8.48a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zM18.34 18v-4.6c0-2.46-1.31-3.6-3.06-3.6-1.41 0-2.04.78-2.39 1.32V9.6H10.2c.04.79 0 8.4 0 8.4h2.67v-4.69c0-.25.02-.5.1-.68.2-.5.66-1.03 1.44-1.03 1.02 0 1.43.78 1.43 1.92V18h2.5z"/></svg>
+        <span>LinkedIn</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+function sendContactForm(e) {
+  e.preventDefault();
+  var name = document.getElementById('contact-name').value;
+  var email = document.getElementById('contact-email').value;
+  var message = document.getElementById('contact-message').value;
+  var subject = encodeURIComponent('Portfolio contact from ' + name);
+  var body = encodeURIComponent(message + '\n\nFrom: ' + name + ' (' + email + ')');
+  window.location.href = 'mailto:sbilapat@purdue.edu?subject=' + subject + '&body=' + body;
+}
+</script>
+
+</body>
+</html>

@@ -1,45 +1,55 @@
-﻿<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Siddharth Bilapati — Portfolio</title>
-  <meta name="description" content="Portfolio site for Siddharth Bilapati" />
-  <meta property="og:title" content="Siddharth Bilapati — Portfolio" />
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siddharth Bilapati | Engineering Portfolio</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1 class="site-name">Siddharth Bilapati</h1>
-    <p class="lead">Web developer — portfolio and projects.</p>
-  </header>
-  <main>
-    <section class="about">
-      <h2>About me</h2>
-      <p>Hi  I'm Siddharth. This is a starter portfolio. Replace this text with your bio, projects, and contact details.</p>
-    </section>
 
-    <section class="projects">
-      <h2>Projects</h2>
-      <div class="grid">
-        <article>
-          <h3>Project A</h3>
-          <p>Short description.</p>
-        </article>
-        <article>
-          <h3>Project B</h3>
-          <p>Short description.</p>
-        </article>
-      </div>
-    </section>
+<nav>
+  <a href="index.html" class="nav-name">Siddharth Bilapati</a>
+  <div>
+    <a href="index.html" class="active">Home</a>
+    <a href="projects.html">Projects</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
 
-    <section class="contact">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:bilapati.siddharth@gmail.com">bilapati.siddharth@gmail.com</a></p>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <p>© Siddharth Bilapati — starter portfolio. Replace content with your own bio and projects.</p>
-  </footer>
+<div class="hero">
+  <div class="hero-text">
+    <h1>Hi, I'm Siddharth.</h1>
+    <p>I'm a Mechanical Engineering student at Purdue University with a passion for bridging hardware and software, combining hands on lab work with data modeling to solve real engineering problems, from EV powertrain simulations to sensor integration and controls.</p>
+    <p>Outside the lab, I love playing football and staying active. It's taught me how to stay level headed under pressure, communicate well with a team, and grind through the reps that aren't glamorous but get the job done.</p>
+    <p>If you're looking for a creative, hardworking engineer who isn't afraid to get their hands dirty, check out my portfolio below, and feel free to connect with me.</p>
+    <button class="linkedin-btn" onclick="openModal()">Connect on LinkedIn</button>
+  </div>
+  <div class="hero-photo">
+    <img src="profile.jpg" alt="Siddharth Bilapati">
+  </div>
+</div>
+
+<!-- LinkedIn modal -->
+<div id="linkedin-modal" class="modal-overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box">
+    <h2>Let's connect</h2>
+    <p>Find me on LinkedIn to see my full background and reach out directly.</p>
+    <div class="modal-actions">
+      <a href="https://www.linkedin.com/in/siddharth-bilapati/" target="_blank" rel="noopener">View Profile</a>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal() {
+  document.getElementById('linkedin-modal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('linkedin-modal').classList.remove('open');
+}
+</script>
+
 </body>
 </html>
